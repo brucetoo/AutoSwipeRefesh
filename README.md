@@ -43,7 +43,7 @@ but need to change some source code.And also a wonderful foot view from [Waiting
 # License
 
 ```
-Copyright 2013 Bruce too
+Copyright 2015 Bruce too
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -56,13 +56,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-This project uses Picasso from Square, which is licensed under the same
-license as this project. You can find the project page at
-
-    http://square.github.io/picasso/
-    
-The sample application uses Twitter4j by Yusuke Yamamoto, 
-ActionBarSherlock by Jake Wharton, and AndroidAnnotations by Pierre-Yves Ricau, 
-all of them being licensed under the Apache license version 2.0.
 ```
