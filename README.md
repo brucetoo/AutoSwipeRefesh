@@ -6,7 +6,7 @@ but need to change some source code.And also a wonderful foot view from [Waiting
 ![](app/source/sample.gif)
 
 
-# What changed
+# What changed IMPORTANT
 
 [SwipeRefreshLayout.java](https://github.com/futuresimple/android-support-v4/blob/master/src/java/android/support/v4/widget/SwipeRefreshLayout.java) in this file.
 
@@ -35,6 +35,18 @@ but need to change some source code.And also a wonderful foot view from [Waiting
         }
     }
 
+```
+
+##USAGE
+```java
+put following code in onCreate or onResume callback method to set auto refreshing like:
+
+handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        }, 500);
 ```
 
 ##DEMO USED
