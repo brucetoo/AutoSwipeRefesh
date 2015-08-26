@@ -24,8 +24,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         @Override
         public boolean handleMessage(Message msg) {
             if(msg.what == 1){
-                adapter.addAll(Arrays.asList(strs));
+                //刷新数据之前delete footView
                 listView.removeFooterView(progress);
+                adapter.addAll(Arrays.asList(strs));
+                //刷新数据之后add footView
+                listView.addFooterView(progress);
             }
             return false;
         }
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         };
 
+        //必须先addFooterView 才能再加载完后 delete
+        listView.addFooterView(progress);
         listView.setAdapter(adapter);
         refreshLayout.setOnRefreshListener(this);
 
@@ -55,24 +60,40 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == SCROLL_STATE_IDLE) {
-                    if (view.getLastVisiblePosition() == adapter.getCount() - 1) {
-                        listView.addFooterView(progress);
-                        //imitate getting data
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                handler.sendEmptyMessage(1);
-                            }
-                        }, 2000);
-                    }
-                }
+//                if (scrollState == SCROLL_STATE_IDLE) {
+//                    if (view.getLastVisiblePosition() == adapter.getCount() - 1) {
+//                        listView.addFooterView(progress);
+//                        //imitate getting data
+//                        handler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                handler.sendEmptyMessage(1);
+//                            }
+//                        }, 2000);
+//                    }
+//                }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //可见的最后一个item的位置
+                int lastItem = firstVisibleItem + visibleItemCount;
+                if(lastItem == totalItemCount) {  //最后一个位置等于当前item的总数
+                    //最有一个item 顶部 和 listview底部相等时(滑动到最底部),执行刷新逻辑  先删除footview 在数据刷新完后在add
+                    View lastItemView = (View) listView.getChildAt(listView.getChildCount() - 1);
+                    if ((listView.getBottom()) == lastItemView.getBottom()) {
+                        if (progress != null && listView.getFooterViewsCount() != 0) {
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    handler.sendEmptyMessage(1);
+                                }
+                            }, 2000);
 
-            }
+                        }
+                    }
+                }
+        }
         });
 
     }
